@@ -1,0 +1,107 @@
+CUSTOM_FW_ID := 1.00
+# gms    
+$(call inherit-product-if-exists, vendor/google/products/gms.mk)
+# dalvik setup
+$(call inherit-product, frameworks/native/build/tablet-7in-hdpi-1024-dalvik-heap.mk)
+
+# init.rc, kernel
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/kernel:kernel \
+	device/softwinner/polaris-common/modules/modules/nand.ko:root/nand.ko \
+	$(LOCAL_PATH)/init.sun8i.rc:root/init.sun8i.rc \
+	$(LOCAL_PATH)/ueventd.sun8i.rc:root/ueventd.sun8i.rc \
+	$(LOCAL_PATH)/initlogo.rle:root/initlogo.rle  \
+	$(LOCAL_PATH)/fstab.sun8i:root/fstab.sun8i \
+	$(LOCAL_PATH)/init.recovery.sun8i.rc:root/init.recovery.sun8i.rc
+
+# wifi features
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
+	frameworks/native/data/etc/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml \
+	frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml
+
+#key and tp config file
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/configs/sunxi-keyboard.kl:system/usr/keylayout/sunxi-keyboard.kl \
+	$(LOCAL_PATH)/configs/tp.idc:system/usr/idc/tp.idc \
+	$(LOCAL_PATH)/configs/gsensor.cfg:system/usr/gsensor.cfg
+
+#copy touch and keyboard driver to recovery ramdisk
+PRODUCT_COPY_FILES += \
+    device/softwinner/polaris-common/modules/modules/disp.ko:obj/disp.ko \
+    device/softwinner/polaris-common/modules/modules/sunxi-keyboard.ko:obj/sunxi-keyboard.ko \
+    device/softwinner/polaris-common/modules/modules/lcd.ko:obj/lcd.ko \
+	device/softwinner/polaris-common/modules/modules/ft5402.ko:obj/ft5402.ko \
+	device/softwinner/polaris-common/modules/modules/ft5x_ts.ko:obj/ft5x_ts.ko \
+	device/softwinner/polaris-common/modules/modules/gslX680.ko:obj/gslX680.ko \
+	device/softwinner/polaris-common/modules/modules/gslX680new.ko:obj/gslX680new.ko \
+	device/softwinner/polaris-common/modules/modules/gt9xxf_ts.ko:obj/gt9xxf_ts.ko \
+    device/softwinner/polaris-common/modules/modules/gt9xx_ts.ko:obj/gt9xx_ts.ko \
+    device/softwinner/polaris-common/modules/modules/inet_ctp.ko:obj/inet_ctp.ko
+
+    
+#recovery config
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/recovery.fstab:recovery.fstab 
+# camera
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/configs/camera.cfg:system/etc/camera.cfg \
+	$(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
+	frameworks/native/data/etc/android.hardware.camera.xml:system/etc/permissions/android.hardware.camera.xml \
+	frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
+	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
+#	frameworks/native/data/etc/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.timezone=Europe/Warsaw \
+    persist.sys.language=en \
+    persist.sys.country=US
+
+#GPS Feature
+PRODUCT_PACKAGES +=  gps.polaris
+BOARD_USES_GPS_TYPE := simulator
+PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.location.xml:system/etc/permissions/android.hardware.location.xml
+
+# evb logger
+PRODUCT_COPY_FILES += \
+       $(LOCAL_PATH)/tools/logger.sh:system/bin/logger.sh
+
+PRODUCT_PROPERTY_OVERRIDES += \
+	persist.sys.usb.config=mass_storage,adb \
+	ro.udisk.lable=Q8H \
+	ro.hwa.force=true \
+	rw.logger=0 \
+	ro.sys.bootfast=false \
+	debug.hwui.render_dirty_regions=false
+
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.sf.lcd_density=120 \
+	ro.product.firmware=v$(CUSTOM_FW_ID)
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.carrier=wifi-only \
+    ro.wifi.usb=true \
+    ro.aw.sensordiscard=8 \
+	ro.config.low_ram=true
+
+$(call inherit-product, device/softwinner/polaris-common/polaris-common.mk)
+$(call inherit-product, device/softwinner/polaris-common/rild/polaris_3gdongle.mk)
+
+DEVICE_PACKAGE_OVERLAYS := \
+    $(LOCAL_PATH)/overlay \
+    $(DEVICE_PACKAGE_OVERLAYS)
+
+PRODUCT_CHARACTERISTICS := tablet
+
+# Overrides
+PRODUCT_AAPT_CONFIG := xlarge hdpi xhdpi large 
+PRODUCT_AAPT_PREF_CONFIG := hdpi
+
+PRODUCT_BRAND  := Ippo
+PRODUCT_NAME   := q8h
+PRODUCT_DEVICE := q8h
+PRODUCT_MODEL  := Ippo Q8H
+
+CUSTOM_BUILD_NUMBER := true
+CUSTOM_VERSION := $(PRODUCT_MODEL)-$(CUSTOM_FW_ID)

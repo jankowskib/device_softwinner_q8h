@@ -1,0 +1,4 @@
+PRODUCT_MAKEFILES := \
+	$(LOCAL_DIR)/q8h.mk
+	
+	
