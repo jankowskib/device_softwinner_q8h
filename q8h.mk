@@ -2,7 +2,7 @@ CUSTOM_FW_ID := 1.00
 # gms    
 $(call inherit-product-if-exists, vendor/google/products/gms.mk)
 # dalvik setup
-$(call inherit-product, frameworks/native/build/tablet-7in-hdpi-1024-dalvik-heap.mk)
+$(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 
 # init.rc, kernel
 PRODUCT_COPY_FILES += \
@@ -31,14 +31,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/softwinner/polaris-common/modules/modules/disp.ko:obj/disp.ko \
     device/softwinner/polaris-common/modules/modules/sunxi-keyboard.ko:obj/sunxi-keyboard.ko \
-    device/softwinner/polaris-common/modules/modules/lcd.ko:obj/lcd.ko \
-	device/softwinner/polaris-common/modules/modules/ft5402.ko:obj/ft5402.ko \
-	device/softwinner/polaris-common/modules/modules/ft5x_ts.ko:obj/ft5x_ts.ko \
-	device/softwinner/polaris-common/modules/modules/gslX680.ko:obj/gslX680.ko \
-	device/softwinner/polaris-common/modules/modules/gslX680new.ko:obj/gslX680new.ko \
-	device/softwinner/polaris-common/modules/modules/gt9xxf_ts.ko:obj/gt9xxf_ts.ko \
-    device/softwinner/polaris-common/modules/modules/gt9xx_ts.ko:obj/gt9xx_ts.ko \
-    device/softwinner/polaris-common/modules/modules/inet_ctp.ko:obj/inet_ctp.ko
+    device/softwinner/polaris-common/modules/modules/lcd.ko:obj/lcd.ko
 
     
 #recovery config
@@ -50,7 +43,7 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
 	frameworks/native/data/etc/android.hardware.camera.xml:system/etc/permissions/android.hardware.camera.xml \
 	frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
-	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
+	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml
 #	frameworks/native/data/etc/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml
 
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -62,10 +55,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PACKAGES +=  gps.polaris
 BOARD_USES_GPS_TYPE := simulator
 PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.location.xml:system/etc/permissions/android.hardware.location.xml
-
-# evb logger
-PRODUCT_COPY_FILES += \
-       $(LOCAL_PATH)/tools/logger.sh:system/bin/logger.sh
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	persist.sys.usb.config=mass_storage,adb \

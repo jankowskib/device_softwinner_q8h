@@ -14,6 +14,7 @@ TARGET_NO_BOOTLOADER := true
 TARGET_NO_RECOVERY := false
 TARGET_NO_KERNEL := false
 
+# Note: That config is wrong
 # 1. realtek wifi configuration
 BOARD_WIFI_VENDOR := realtek
 ifeq ($(BOARD_WIFI_VENDOR), realtek)
