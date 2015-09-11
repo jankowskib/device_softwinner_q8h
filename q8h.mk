@@ -71,7 +71,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.carrier=wifi-only \
     ro.wifi.usb=true \
-    ro.aw.sensordiscard=8 \
 	ro.config.low_ram=true
 
 $(call inherit-product, device/softwinner/polaris-common/polaris-common.mk)
