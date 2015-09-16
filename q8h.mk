@@ -1,14 +1,25 @@
-CUSTOM_FW_ID := 1.00
+CUSTOM_FW_ID := 1.01
+BOARD_PCB_VERSION := V1.2
+
 # gms    
 $(call inherit-product-if-exists, vendor/google/products/gms.mk)
 # dalvik setup
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 
+PCB_PATH := $(LOCAL_PATH)/$(BOARD_PCB_VERSION)
+
+ifneq (,$(filter V1.2 V1.0,$(BOARD_PCB_VERSION)))
+	PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml
+	PRODUCT_PACKAGES +=  Bluetooth
+else ifeq ($(BOARD_PCB_VERSION), V5)
+	$(call inherit-product-if-exists, hardware/espressif/wlan/firmware/esp8089/device-esp.mk)
+endif
+
 # init.rc, kernel
 PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/kernel:kernel \
+	$(PCB_PATH)/kernel:kernel \
 	device/softwinner/polaris-common/modules/modules/nand.ko:root/nand.ko \
-	$(LOCAL_PATH)/init.sun8i.rc:root/init.sun8i.rc \
+	$(PCB_PATH)/init.sun8i.rc:root/init.sun8i.rc \
 	$(LOCAL_PATH)/ueventd.sun8i.rc:root/ueventd.sun8i.rc \
 	$(LOCAL_PATH)/initlogo.rle:root/initlogo.rle  \
 	$(LOCAL_PATH)/fstab.sun8i:root/fstab.sun8i \
@@ -16,10 +27,7 @@ PRODUCT_COPY_FILES += \
 
 # wifi features
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
-	frameworks/native/data/etc/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml \
-	frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml
+    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml
 
 #key and tp config file
 PRODUCT_COPY_FILES += \
@@ -57,7 +65,7 @@ BOARD_USES_GPS_TYPE := simulator
 PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.location.xml:system/etc/permissions/android.hardware.location.xml
 
 PRODUCT_PROPERTY_OVERRIDES += \
-	persist.sys.usb.config=mass_storage,adb \
+	persist.sys.usb.config=mtp,adb \
 	ro.udisk.lable=Q8H \
 	ro.hwa.force=true \
 	rw.logger=0 \

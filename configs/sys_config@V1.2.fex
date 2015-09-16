@@ -674,8 +674,8 @@ ov2643                  = 0
 gc0329                  = 0
 gc0309                  = 0
 s5k4ec                  = 0
-siv121d                 = 0
-siv120d                 = 0
+siv121d                 = 1
+siv120d                 = 1
 
 ;--------------------------------------------------------------------------------
 ;   mmc configuration
@@ -1231,8 +1231,8 @@ pmu_used                   = 1
 pmu_twi_addr               = 0x34
 pmu_twi_id                 = 1
 pmu_irq_id                 = 0
-pmu_battery_rdc            = 100
-pmu_battery_cap            = 0
+pmu_battery_rdc            = 162
+pmu_battery_cap            = 3000
 pmu_batdeten               = 1
 pmu_runtime_chgcur         = 900
 pmu_earlysuspend_chgcur    = 900
