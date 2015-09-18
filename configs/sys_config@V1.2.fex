@@ -605,7 +605,7 @@ vip_csi_d5               = port:PE09<2><default><default><default>
 vip_csi_d6               = port:PE10<2><default><default><default>
 vip_csi_d7               = port:PE11<2><default><default><default>
 
-vip_dev0_mname           = "sp0a19"
+vip_dev0_mname           = "siv121d"
 vip_dev0_lane            = 1
 vip_dev0_twi_id          = 2
 vip_dev0_twi_addr        = 0x66
@@ -630,7 +630,7 @@ vip_dev0_flash_mode      =
 vip_dev0_af_pwdn         = 
  
 
-vip_dev1_mname           = "sp0a19"
+vip_dev1_mname           = "siv121d"
 vip_dev1_lane            = 1
 vip_dev1_twi_id          = 2
 vip_dev1_twi_addr        = 0x66
